@@ -9,6 +9,7 @@ Original file is located at
 
 import pandas as pd
 import numpy as np
+import os
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 def preprocess_telco(df: pd.DataFrame) -> pd.DataFrame:
@@ -67,8 +68,13 @@ def preprocess_telco(df: pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
     df_raw = pd.read_csv("telco_raw/WA_Fn-UseC_-Telco-Customer-Churn.csv")
     df_processed = preprocess_telco(df_raw)
-    
-    # Simpan hasil
-    output_path = "preprocessing/telco_preprocessing/telco_preprocessing.csv"
+
+    # 🔧 Pastikan folder output ada
+    output_dir = "preprocessing/telco_preprocessing"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 🔥 Simpan ke file
+    output_path = os.path.join(output_dir, "telco_preprocessing.csv")
     df_processed.to_csv(output_path, index=False)
-    print(f"[INFO] File hasil preprocessing disimpan ke: {output_path}")
+    print(f"[INFO] Data preprocessing selesai dan disimpan di {output_path}")
+
