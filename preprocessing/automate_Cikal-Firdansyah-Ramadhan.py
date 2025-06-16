@@ -67,5 +67,8 @@ def preprocess_telco(df: pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
     df_raw = pd.read_csv("telco_raw/WA_Fn-UseC_-Telco-Customer-Churn.csv")
     df_processed = preprocess_telco(df_raw)
-    df_processed.to_csv("preprocessing/telco_preprocessing/telco_preprocessing.csv", index=False)
-    print("[INFO] File hasil preprocessing berhasil disimpan.")
+    
+    # Simpan hasil
+    output_path = "preprocessing/telco_preprocessing/telco_preprocessing.csv"
+    df_processed.to_csv(output_path, index=False)
+    print(f"[INFO] File hasil preprocessing disimpan ke: {output_path}")
