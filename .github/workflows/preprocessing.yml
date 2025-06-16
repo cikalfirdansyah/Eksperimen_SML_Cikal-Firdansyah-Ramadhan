@@ -33,9 +33,10 @@ jobs:
 
     - name: Commit and Push Processed Data
       run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config user.name "cikal-actions"
+        git config user.email "actions@github.com"
+        git remote set-url origin https://cikal:${{ secrets.GH_TOKEN }}@github.com/cikalfirdansyah/Eksperimen_SML_Cikal-Firdansyah-Ramadhan.git
         git add preprocessing/telco_preprocessing/telco_preprocessing.csv
         git commit -m "Update preprocessed data via workflow"
-        git push
+        git push origin main
       continue-on-error: true

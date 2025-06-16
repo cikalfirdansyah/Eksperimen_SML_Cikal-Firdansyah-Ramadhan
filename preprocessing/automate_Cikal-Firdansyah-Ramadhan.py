@@ -77,4 +77,3 @@ if __name__ == "__main__":
     output_path = os.path.join(output_dir, "telco_preprocessing.csv")
     df_processed.to_csv(output_path, index=False)
     print(f"[INFO] Data preprocessing selesai dan disimpan di {output_path}")
-
