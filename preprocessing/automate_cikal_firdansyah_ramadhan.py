@@ -35,7 +35,7 @@ def preprocess_telco(df: pd.DataFrame) -> pd.DataFrame:
     if 'customerID' in df.columns:
         df.drop(columns='customerID', inplace=True)
 
-    # 4. Deteksi outlier (opsional, hanya print jumlah)
+    # 4. Deteksi outlier (hanya tampilkan jumlah)
     if 'TotalCharges' in df.columns:
         Q1 = df['TotalCharges'].quantile(0.25)
         Q3 = df['TotalCharges'].quantile(0.75)
@@ -43,7 +43,7 @@ def preprocess_telco(df: pd.DataFrame) -> pd.DataFrame:
         outliers = df[(df['TotalCharges'] < Q1 - 1.5 * IQR) | (df['TotalCharges'] > Q3 + 1.5 * IQR)]
         print(f"[INFO] Jumlah outlier TotalCharges: {len(outliers)} (tidak dihapus)")
 
-    # 5. Encoding semua kolom kategorikal
+    # 5. Encoding kolom kategorikal
     categorical_cols = df.select_dtypes(include='object').columns
     le = LabelEncoder()
     for col in categorical_cols:
@@ -56,10 +56,16 @@ def preprocess_telco(df: pd.DataFrame) -> pd.DataFrame:
         if col in df.columns:
             df[col] = scaler.fit_transform(df[[col]])
 
-    # 7. Binning kolom tenure
+    # 7. Binning pada tenure
     if 'tenure' in df.columns:
         df['tenure_group'] = pd.cut(df['tenure'],
                                     bins=[-np.inf, -0.5, 0.5, np.inf],
                                     labels=['Low', 'Medium', 'High'])
 
     return df
+
+if __name__ == "__main__":
+    df_raw = pd.read_csv("telco_raw/WA_Fn-UseC_-Telco-Customer-Churn.csv")
+    df_processed = preprocess_telco(df_raw)
+    df_processed.to_csv("preprocessing/telco_preprocessing/telco_preprocessing.csv", index=False)
+    print("[INFO] File hasil preprocessing berhasil disimpan.")
